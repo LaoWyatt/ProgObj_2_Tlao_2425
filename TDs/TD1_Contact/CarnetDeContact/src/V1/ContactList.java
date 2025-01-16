@@ -1,6 +1,11 @@
 package V1;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class ContactList {
 
@@ -107,5 +112,68 @@ public class ContactList {
         }
         return save;
     }
+    
+    public boolean Save() {
+    	try {
+    	      FileWriter myWriter = new FileWriter("Save.txt");
+    	      myWriter.write(getSaveText());
+    	      myWriter.close();
+    	      System.out.println("Successfully wrote to the file.");
+    	      return true;
+    	      
+    	} catch (IOException e) {
+    	      System.out.println("An error occurred.");
+    	      e.printStackTrace();
+    	      return false;
+    	}
+    }
 
+    public boolean reloadSave() {
+    	
+    	try {
+    	      File myObj = new File("Save.txt");
+    	      Scanner myReader = new Scanner(myObj);
+    	      String data = "";
+    	      
+    	      while (myReader.hasNextLine()) {
+    	        data = myReader.nextLine();
+    	      }
+    	      if (!data.isBlank()) {
+    	    	  
+    	    	  ArrayList<String> cont = new ArrayList<String>();
+                  String temp = "";
+                  for (int i = 0; i < data.length(); i++){
+                      char c = data.charAt(i);
+
+                      if (c == '/'){
+                          cont.add(temp);
+                          temp = "";
+
+                      } else if (c == ';') {
+                          cont.add(temp);
+                          temp = "";
+
+                          addContact(cont.get(0),cont.get(1),cont.get(2)
+                                  ,cont.get(3),Integer.valueOf(cont.get(4)),cont.get(5)
+                                  ,cont.get(6),cont.get(7),Integer.valueOf(cont.get(8)));
+
+                          cont.clear();
+                      } else if (c != '\n') {
+                          temp = temp + c;
+                      }
+                  }
+                  
+    	      }
+    	     
+    	      myReader.close();
+    	      return true;
+    	      
+    	} catch (FileNotFoundException e) {
+    	      System.out.println("An error occurred.");
+    	      e.printStackTrace();
+    	      return false;
+    	}
+    	
+    }
+    
 }

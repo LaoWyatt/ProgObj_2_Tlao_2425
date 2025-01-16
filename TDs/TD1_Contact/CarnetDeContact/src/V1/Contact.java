@@ -5,13 +5,13 @@ public class Contact {
     // ---------------{ MÉTHODES DE CLASSE }----------------
 
     protected void setId(int i){
-        this.id = i;
+        _id = i;
     }
 
     // ---------------{ ATTRIBUTS D'INSTANCE }----------------
 
-    private int id,codePostal,pfp;
-    private String nom, prenom, numTel, adresse, email, metier, situation;
+    private int _id, _codePostal, _pfp;
+    private String _nom, _prenom, _numTel, _adresse, _email, _metier, _situation;
 
 
     // ---------------{ CONSTRUCTEURS }----------------
@@ -43,78 +43,78 @@ public class Contact {
     // ---------------{ MÉTHODES }----------------
 
     public int getID() {
-        return this.id ;
+        return _id ;
     }
 
     public String getNom(){
-        return this.nom;
+        return _nom;
     }
 
     public void setNom(String name){
-        this.nom = name;
+        _nom = name;
     }
 
     public String getPrenom(){
-        return this.prenom;
+        return _prenom;
     }
 
     public void setPrenom(String name){
-        this.prenom = name;
+        _prenom = name;
     }
 
     public String getNumTel(){
-        return this.numTel;
+        return _numTel;
     }
 
     public void setNumTel(String n){
-        this.numTel = n;
+        _numTel = n;
     }
 
     public String getAdresse(){
-        return this.adresse;
+        return _adresse;
     }
 
     public void setAdresse(String n){
-        this.adresse = n;
+        _adresse = n;
     }
 
     public int getCodePostal(){
-        return this.codePostal;
+        return _codePostal;
     }
 
     public void setCodePostal(int n){
-        this.codePostal = n;
+        _codePostal = n;
     }
 
     public int getPFP(){
-        return this.pfp;
+        return _pfp;
     }
 
     public void setPFP(int n){
-        this.pfp = n;
+        _pfp = n;
     }
 
     public String getEmail(){
-        return this.email;
+        return _email;
     }
 
     public void setEmail(String n){
-        this.email = n;
+        _email = n;
     }
 
     public String getMetier(){
-        return this.metier;
+        return _metier;
     }
 
     public void setMetier(String n) {
-        this.metier = n;
+        _metier = n;
     }
 
     public String getSituation() {
-        return this.situation;
+        return _situation;
     }
 
     public void setSituation(String n) {
-        this.situation = n;
+        _situation = n;
     }
 }
