@@ -17,15 +17,17 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+@SuppressWarnings("serial")
 public class CarnetUI extends JFrame implements ActionListener {
 	static ContactList list = new ContactList();
 	static JLabel numLabel;
-	static JTextField nomTF, prenomTF, telephoneTF, adresseTF, codePostalTF, emailTF, metierTF, situationTF;
-	static JButton prevAButton, suivAButton, prevC, debutC, millieuC, finC, suivC, numC, suppC, nouvC, saveC;
+	static JTextField nomTF, prenomTF, telephoneTF, adresseTF, codePostalTF, emailTF, metierTF, situationTF, answerNum;
+	static JButton prevAButton, suivAButton, prevC, debutC, millieuC, finC, suivC, numC, suppC, nouvC, saveC, saveModC;
 	static JLabel avatar;
 	static ArrayList<String> avatarList = new ArrayList<>();
 	static int currentAvatar;
@@ -92,7 +94,7 @@ public class CarnetUI extends JFrame implements ActionListener {
 		JScrollPane scrollInfo = new JScrollPane(infoPanel);
 		
 		
-		JPanel buttonPanel = new JPanel(new GridLayout(2,5,1,1));
+		JPanel buttonPanel = new JPanel(new GridLayout(3,4,1,1));
 		
 		prevC = new JButton("Prec");
 		buttonPanel.add(prevC);
@@ -109,9 +111,6 @@ public class CarnetUI extends JFrame implements ActionListener {
 		suivC = new JButton("Suiv...");
 		buttonPanel.add(suivC);
 		
-		numC = new JButton("Num...");
-		buttonPanel.add(numC);
-		
 		suppC = new JButton("Suppr...");
 		buttonPanel.add(suppC);
 		
@@ -120,6 +119,26 @@ public class CarnetUI extends JFrame implements ActionListener {
 		
 		saveC = new JButton("Sauv...");
 		buttonPanel.add(saveC);
+		
+		saveModC = new JButton("Sauv Modif");
+		buttonPanel.add(saveModC);
+		
+		numC = new JButton("Num");
+		buttonPanel.add(numC);
+		
+		answerNum = new JTextField("1");
+		buttonPanel.add(answerNum);
+		
+		prevC.addActionListener(this);
+		debutC.addActionListener(this);
+		millieuC.addActionListener(this);
+		finC.addActionListener(this);
+		suivC.addActionListener(this);
+		numC.addActionListener(this);
+		suppC.addActionListener(this);
+		nouvC.addActionListener(this);
+		saveC.addActionListener(this);
+		saveModC.addActionListener(this);
 		
 		
 		JMenu editMenu = new JMenu("Edit");
@@ -187,6 +206,103 @@ public class CarnetUI extends JFrame implements ActionListener {
 				avatar.setIcon(new ImageIcon(new ImageIcon(avatarList.get(currentAvatar)).getImage().getScaledInstance(60, 75, Image.SCALE_SMOOTH)));
 				break;
 				
+			case "Prec":
+				if (list.getSize() > 0){
+		            int idd = Integer.valueOf(numLabel.getText());
+
+		            if (idd == 1){
+		                displayContact(list.getSize());
+		            } else displayContact(idd - 1);
+		        }
+				break;
+				
+			case "Début":
+				if (list.getSize() > 0) displayContact(1);
+				break;
+				
+			case "Milieu":
+				int size = list.getSize();
+				if (size > 1) {
+					int res = list.getSize() / 2;
+		            if (size % 2 == 1) {
+		            	res++;
+		            }
+		            displayContact(res);
+		        }
+				break;
+				
+			case "Fin":
+				if (list.getSize() > 0) displayContact(list.getSize());
+				break;
+				
+			case "Suiv...":
+				if(list.getSize() > 0){
+		            int idd = Integer.valueOf(numLabel.getText());
+
+		            if (idd == list.getSize()){
+		                displayContact(1);
+		            } else {
+		                displayContact(idd + 1);
+		            }
+		        }
+				break;
+				
+			case "Suppr...":
+				if (list.getSize() > 0){
+		            int idd = Integer.valueOf(numLabel.getText());
+		            list.deleteContact(idd);
+		            if (list.getSize() > 0 && idd <= list.getSize()) displayContact(idd);
+		            else if (list.getSize() > 0) displayContact(list.getSize());
+
+		            if (list.getSize() == 0) clearContact();
+		        }
+				break;
+				
+			case "Nouveau":
+				clearContact();
+
+		        int id = list.getSize() + 1;
+		        numLabel.setText(String.valueOf(id));
+				break;
+				
+			case "Sauv...":
+				if (list.Save()) JOptionPane.showMessageDialog(this, "Carnet sauvegardé !", "INFO", JOptionPane.PLAIN_MESSAGE);
+				break;
+				
+			case "Sauv Modif":
+				
+				if (!numLabel.getText().isEmpty()) {
+					
+		            int size1 = list.getSize();
+		            int iddd = Integer.valueOf(numLabel.getText());
+	
+		            if (iddd == size1 + 1){
+		                if(!list.addContact(nomTF.getText(),prenomTF.getText(),telephoneTF.getText(),
+		                        adresseTF.getText(),Integer.valueOf(codePostalTF.getText()),emailTF.getText(),
+		                        metierTF.getText(),situationTF.getText(),currentAvatar))JOptionPane.showMessageDialog(this, "Code postal non valide !", "ERREUR", JOptionPane.ERROR_MESSAGE);
+		                
+		            } else if (iddd < size1 + 1 && iddd > 0){
+		                if(!list.modifyContact(iddd,nomTF.getText(),prenomTF.getText(),telephoneTF.getText(),
+		                        adresseTF.getText(),Integer.valueOf(codePostalTF.getText()),emailTF.getText(),
+		                        metierTF.getText(),situationTF.getText(),currentAvatar))JOptionPane.showMessageDialog(this, "Code postal non valide !", "ERREUR", JOptionPane.ERROR_MESSAGE);
+		            }
+		            JOptionPane.showMessageDialog(this, "Contact sauvegardé !", "INFO", JOptionPane.PLAIN_MESSAGE);
+				}
+				break;
+				
+			case "Num":
+				try {
+					int n = Integer.valueOf(answerNum.getText());
+					if (n > 0 && n < list.getSize() + 1){
+						displayContact(n);
+					} else {
+						JOptionPane.showMessageDialog(this, "Iddentifiant non valide !", "ERREUR", JOptionPane.ERROR_MESSAGE);
+					}
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(this, "Veillez entrez un iddentifiant !", "ERREUR", JOptionPane.ERROR_MESSAGE);
+				}
+				
+				break;
 		}
 		
 	}
@@ -197,7 +313,7 @@ public class CarnetUI extends JFrame implements ActionListener {
 
 	private static void displayContact(int id){
         Contact c = list.getContact(id-1);
-
+        
         numLabel.setText(Integer.toString(c.getID()));
         nomTF.setText(c.getNom());
         prenomTF.setText(c.getPrenom());

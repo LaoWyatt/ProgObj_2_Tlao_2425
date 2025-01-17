@@ -1,0 +1,50 @@
+package V1;
+
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+@SuppressWarnings("serial")
+public class NumUI extends JFrame implements ActionListener {
+	
+	static JPanel NumPanel;
+	static JTextField numTF;
+	static JButton comfirm;
+	
+	NumUI(){
+		NumPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		NumPanel.add(new JLabel("Entrez l'iddentifiant : "));
+		NumPanel.add(numTF = new JTextField());
+		NumPanel.add(comfirm = new JButton("Comfirmer"));
+		comfirm.addActionListener(this);
+		
+		JPanel panneau = (JPanel)getContentPane();
+		panneau.setLayout(
+		new BoxLayout(panneau, BoxLayout.Y_AXIS));
+		this.setTitle("Num");
+		panneau.add(Box.createVerticalStrut(5));
+		panneau.add(NumPanel);
+		
+		this.pack();
+		this.setVisible(true);
+	}
+	
+	
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if (e.getActionCommand().equals("Comfirmer")) {
+			if (!numTF.getText().isBlank()) CarnetUI.dataTransfer = Integer.valueOf(numTF.getText());
+			System.exit(0);
+		}
+	}
+}

@@ -35,19 +35,22 @@ public class ContactList {
         }
     }
 
-    public void addContact(String last_name, String first_name, String tel,
+    public boolean addContact(String last_name, String first_name, String tel,
                       String adress, int code, String mail, String job, String situa, int pfp){
 
+    	
         // false if at least one var is empty
-        boolean str_verif = !last_name.equals("") && !first_name.equals("") &&
-                !tel.equals("") && !adress.equals("") && !mail.equals("") &&
-                !job.equals("") && !situa.equals("");
+        boolean str_verif = !last_name.contentEquals("") && !first_name.contentEquals("") &&
+                !tel.contentEquals("") && !adress.contentEquals("") && !mail.contentEquals("") &&
+                !job.contentEquals("") && !situa.contentEquals("");
 
-        if (str_verif){
-
+        if (str_verif  && code > 9999 && code < 100000){
+        	
             this.carnet.add(new Contact(this.carnet.size() + 1,last_name,first_name,
                     tel,adress,code,mail,job,situa, pfp));
+            return true;
         }
+        return false;
 
     }
 
@@ -72,7 +75,7 @@ public class ContactList {
     }
 
 
-    public void modifyContact(int idd,String last_name, String first_name, String tel,
+    public boolean modifyContact(int idd,String last_name, String first_name, String tel,
                            String adress, int code, String mail, String job, String situa, int pfp){
 
         idd--;
@@ -89,8 +92,10 @@ public class ContactList {
 
                 this.carnet.set(idd,new Contact(idd + 1,last_name,first_name,
                         tel,adress,code,mail,job,situa, pfp));
+                return true;
             }
         }
+        return false;
     }
 
 
@@ -118,7 +123,6 @@ public class ContactList {
     	      FileWriter myWriter = new FileWriter("Save.txt");
     	      myWriter.write(getSaveText());
     	      myWriter.close();
-    	      System.out.println("Successfully wrote to the file.");
     	      return true;
     	      
     	} catch (IOException e) {

@@ -20,9 +20,9 @@ public class Contact {
                    String tel, String adress, int code, String mail, String job, String situa, int pfp){
 
         // false if at least one var is empty
-        boolean str_verif = !last_name.equals("") && !first_name.equals("") &&
-                            !tel.equals("") && !adress.equals("") && !mail.equals("") &&
-                            !job.equals("") && !situa.equals("");
+        boolean str_verif = !last_name.contentEquals("") && !first_name.contentEquals("") &&
+                            !tel.contentEquals("") && !adress.contentEquals("") && !mail.contentEquals("") &&
+                            !job.contentEquals("") && !situa.contentEquals("");
 
         if (str_verif && code > 9999 && code < 100000){
             setId(ide);
@@ -116,5 +116,9 @@ public class Contact {
 
     public void setSituation(String n) {
         _situation = n;
+    }
+    
+    public String toString() {
+    	return (_nom +"  " +_prenom+"  " + _numTel+"  " + _adresse+"  " + _email +"  " +_metier+"  " + _situation +"  " + _id+"  " + _codePostal+"  " + _pfp);
     }
 }
