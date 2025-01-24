@@ -1,0 +1,21 @@
+10
+1::Jean::Jean::+89456123::JeanPrince::978465::jeanjean@hotmail::Ajean comptable::jeanménage::
+6
+2::Marley::Bob::+9746513::JahLand::987986::boby@gmail::agriculteur::high::
+1
+3::Einstein::Franck::+4523568::???::98846::e=mc^2@hotmail::physicien::décédé::
+0
+4::::::::::::::::::
+6
+5::::::::::::::::::
+1
+6::::::::::::::::::
+1
+7::::::::::::::::::
+1
+8::::::::::::::::::
+1
+9::::::::::::::::::
+1
+10::::::::::::::::::
+1
