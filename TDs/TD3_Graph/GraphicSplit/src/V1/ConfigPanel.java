@@ -78,28 +78,28 @@ public class ConfigPanel extends JPanel implements ActionListener {
 		
 		bornPanel.add(new JLabel("X min"));
 		
-		borneMinX = new JTextField("");
+		borneMinX = new JTextField("-10");
 		borneMinX.setPreferredSize(new Dimension(40,22));
 		
 		bornPanel.add(borneMinX);
 		
 		bornPanel.add(new JLabel("X max"));
 		
-		borneMaxX = new JTextField("");
+		borneMaxX = new JTextField("10");
 		borneMaxX.setPreferredSize(new Dimension(40,22));
 		
 		bornPanel.add(borneMaxX);
 		
 		bornPanel.add(new JLabel("Y min"));
 		
-		borneMinY = new JTextField("");
+		borneMinY = new JTextField("-10");
 		borneMinY.setPreferredSize(new Dimension(40,22));
 		
 		bornPanel.add(borneMinY);
 		
 		bornPanel.add(new JLabel("Y max"));
 		
-		borneMaxY = new JTextField("");
+		borneMaxY = new JTextField("10");
 		borneMaxY.setPreferredSize(new Dimension(40,22));
 		
 		bornPanel.add(borneMaxY);
@@ -110,28 +110,28 @@ public class ConfigPanel extends JPanel implements ActionListener {
 		
 		spacePanel.add(new JLabel("X mineur"));
 		
-		spaceMinX = new JTextField("");
+		spaceMinX = new JTextField("1");
 		spaceMinX.setPreferredSize(new Dimension(40,22));
 		
 		spacePanel.add(spaceMinX);
 		
 		spacePanel.add(new JLabel("X majeur"));
 		
-		spaceMajX = new JTextField("");
+		spaceMajX = new JTextField("5");
 		spaceMajX.setPreferredSize(new Dimension(40,22));
 		
 		spacePanel.add(spaceMajX);
 		
 		spacePanel.add(new JLabel("Y mineur"));
 		
-		spaceMinY = new JTextField("");
+		spaceMinY = new JTextField("1");
 		spaceMinY.setPreferredSize(new Dimension(40,22));
 		
 		spacePanel.add(spaceMinY);
 		
 		spacePanel.add(new JLabel("Y majeur"));
 		
-		spaceMajY = new JTextField("");
+		spaceMajY = new JTextField("5");
 		spaceMajY.setPreferredSize(new Dimension(40,22));
 		
 		spacePanel.add(spaceMajY);
@@ -220,7 +220,6 @@ public class ConfigPanel extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 

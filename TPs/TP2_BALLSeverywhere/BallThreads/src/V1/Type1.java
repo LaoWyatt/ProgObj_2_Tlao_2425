@@ -10,7 +10,7 @@ public class Type1 extends JPanel {
 	PanneauBoules pb;
 	PanneauControles pc;
 
-	JSplitPane sp1, sp2;
+	JSplitPane sp1;
 	
 	public Type1(RootPanel parent) {
 		this.parent = parent;
