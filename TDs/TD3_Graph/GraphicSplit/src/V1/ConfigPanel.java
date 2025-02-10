@@ -1,5 +1,8 @@
 package V1;
 
+import java.awt.Checkbox;
+import java.awt.CheckboxGroup;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -22,13 +25,18 @@ import javax.swing.border.TitledBorder;
 
 public class ConfigPanel extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
-	JPanel degPanel, coefPanel, tabPanel, bornPanel, spacePanel, trajectoryPanel, radioPanel, buttonPanel;
-	JButton validButton, resetButton;
-	JRadioButton ligneButton, croixButton, pointButton;
-	JSlider degSlider, redSlider, greenSlider, blueSlider;
-	JTextField coefTF, borneMinX, borneMaxX, borneMinY, borneMaxY, spaceMinX, spaceMajX, spaceMinY, spaceMajY;
-	JTable table;
-	ButtonGroup typeBG;
+	private JPanel degPanel, coefPanel, tabPanel, bornPanel, spacePanel, trajectoryPanel, radioPanel, buttonPanel;
+	private JButton validButton, resetButton;
+	private JSlider degSlider, redSlider, greenSlider, blueSlider;
+	private JTextField coefTF, borneMinX, borneMaxX, borneMinY, borneMaxY, spaceMinX, spaceMajX, spaceMinY, spaceMajY;
+	private JTable table;
+	
+	private final static int NB_INPUT = 14;
+	
+	CheckboxGroup typeBG;
+	Checkbox[] radButtons = new Checkbox[3];
+	
+	private MainAll _parent;
 	
 	String[] columnNames = {"X", "Y"};
 	
@@ -40,7 +48,10 @@ public class ConfigPanel extends JPanel implements ActionListener {
 			{2,8.0}
 	};
 	
-	ConfigPanel(){
+	ConfigPanel(MainAll root){
+		
+		_parent = root;
+		
 		this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
 		
 		degPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -144,19 +155,16 @@ public class ConfigPanel extends JPanel implements ActionListener {
 		radioPanel = new JPanel();
 		radioPanel.setLayout(new BoxLayout(radioPanel,BoxLayout.X_AXIS));
 		
-		typeBG = new ButtonGroup();
+		typeBG = new CheckboxGroup();
 		
-		ligneButton = new JRadioButton("Lie",true);
-		typeBG.add(ligneButton);
-		radioPanel.add(ligneButton);
+		radButtons[0] = new Checkbox("Lie", typeBG, true);
+		radioPanel.add(radButtons[0]);
 		
-		pointButton = new JRadioButton("Point",false);
-		typeBG.add(pointButton);
-		radioPanel.add(pointButton);
+		radButtons[1] = new Checkbox("Point", typeBG, false);
+		radioPanel.add(radButtons[1]);
 		
-		croixButton = new JRadioButton("Croix",false);
-		typeBG.add(croixButton);
-		radioPanel.add(croixButton);
+		radButtons[2] = new Checkbox("Croix", typeBG, false);
+		radioPanel.add(radButtons[2]);
 		
 		trajectoryPanel.add(radioPanel);
 		
@@ -215,12 +223,99 @@ public class ConfigPanel extends JPanel implements ActionListener {
 		this.add(buttonPanel);
 	}
 	
+	public int getDegree() {
+		return degSlider.getValue();
+	}
 	
+	public int getCoef() {
+		return Integer.valueOf(coefTF.getText());
+	}
+	
+	public int[] getBorne() {
+		int tab[] = {Integer.valueOf(this.borneMinX.getText()),Integer.valueOf(this.borneMaxX.getText()),Integer.valueOf(this.borneMinY.getText()),Integer.valueOf(this.borneMaxY.getText())};
+		return tab;
+	}
 	
 
+	public int[] getSpace() {
+		int tab[] = {Integer.valueOf(this.spaceMinX.getText()),Integer.valueOf(this.spaceMajX.getText()),Integer.valueOf(this.spaceMinY.getText()),Integer.valueOf(this.spaceMajY.getText())};
+		return tab;
+	}
+	
+	public Color getColor() {
+		return new Color(redSlider.getValue(),greenSlider.getValue(),blueSlider.getValue());
+	}
+	
+	public int getType() {
+		
+		if (radButtons[0].getState()) {
+			return 0;
+		} else if (radButtons[1].getState()) {
+			return 1;
+		}
+		return 2;
+	}
+	
+	protected boolean setValues(int[] tab) {
+		try {
+			
+			if (tab.length != NB_INPUT) {
+				throw(new Exception("Out of Bound"));
+			}
+			
+			degSlider.setValue(tab[0]);
+			
+			redSlider.setValue(tab[1]);
+			greenSlider.setValue(tab[2]);
+			greenSlider.setValue(tab[3]);
+			
+			coefTF.setText(String.valueOf(tab[4]));
+			
+			borneMinX.setText(String.valueOf(tab[5]));
+			borneMaxX.setText(String.valueOf(tab[6]));
+			borneMinY.setText(String.valueOf(tab[7]));
+			borneMaxY.setText(String.valueOf(tab[8]));
+			
+			spaceMinX.setText(String.valueOf(tab[9]));
+			spaceMajX.setText(String.valueOf(tab[10]));
+			spaceMinY.setText(String.valueOf(tab[11]));
+			spaceMajY.setText(String.valueOf(tab[12]));
+			
+			switch(tab[13]) {
+			case 0:
+				radButtons[0].setState(true);
+				radButtons[1].setState(false);
+				radButtons[2].setState(false);
+				break;
+				
+			case 1:
+				radButtons[0].setState(false);
+				radButtons[1].setState(true);
+				radButtons[2].setState(false);
+				break;
+				
+			case 2:
+				radButtons[0].setState(false);
+				radButtons[1].setState(false);
+				radButtons[2].setState(true);
+				break;
+			}
+			
+			return true;
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			return false;
+		}
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
+		if(e.getSource() == validButton) {
+			_parent.updateGraph();
+		} else if (e.getSource() == resetButton) {
+			int tab[] = {0,255,0,0,0,-10,10,-10,10,1,5,1,5,0};
+			setValues(tab);
+		}
 	}
 
 }

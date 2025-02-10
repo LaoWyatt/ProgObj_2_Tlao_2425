@@ -1,23 +1,20 @@
 package V1;
 
-import java.awt.FlowLayout;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 
 public class MainAll extends JFrame {
 	private static final long serialVersionUID = 1L;
 
-	ConfigPanel configLeft = new ConfigPanel();
+	ConfigPanel configLeft = new ConfigPanel(this);
 	GraphPanel graphRight = new GraphPanel();
 	JSplitPane split;
 	
 	MainAll(){
 		
-		
-		split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,new JScrollPane(new ConfigPanel()),graphRight);
+		split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,new JScrollPane(configLeft),graphRight);
 		
 		
 		
@@ -31,6 +28,10 @@ public class MainAll extends JFrame {
 		// TODO Auto-generated method stub
 
 		new MainAll();
+		
+	}
+	
+	protected void updateGraph() {
 		
 	}
 
